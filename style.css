@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;600;700&display=swap');
+
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: 'Proxima Nova', Arial, Helvetica, sans-serif;
 }
 .background {
 	height: 100vh;
@@ -32,6 +34,7 @@
 	top: 40vh;
 	left: 30vw;
 	z-index: 100;
+	filter: hue-rotate(200deg) saturate(1.8) brightness(1.2) contrast(1.1); /*removed this line to change it back*/
 }
 .pipe_sprite {
 	position: fixed;
@@ -39,7 +42,7 @@
 	left: 100vw;
 	height: 70vh;
 	width: 6vw;
-	background:radial-gradient(lightgreen 50%, green);
+	background: linear-gradient(to bottom, #FFC907 0%, #2E9DF7 100%);
 	border: 5px solid black;
 }
 .message {
@@ -54,11 +57,11 @@
 	max-width: 500px;
 	width: 90vw;
 	line-height: 1.5;
-	font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+	font-family: 'Proxima Nova', Arial, Helvetica, sans-serif;
 }
 .message h1, .message h2 {
-	color: #F7C40D;
-	font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+	color: #FFC907;
+	font-family: 'Proxima Nova', Arial, Helvetica, sans-serif;
 	font-weight: bold;
 }
 .messageStyle{
@@ -81,7 +84,7 @@
 	top: 0;
 	left: 0;
 	margin: 10px;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: 'Proxima Nova', Arial, Helvetica, sans-serif;
 }
 .timer {
 	position: fixed;
@@ -95,7 +98,7 @@
 	padding: 6px 14px;
 	border-radius: 10px;
 	box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-	font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+	font-family: 'Proxima Nova', Arial, Helvetica, sans-serif;
 	letter-spacing: 1px;
 }
 .score_val {
@@ -226,7 +229,7 @@
 
 /* Bonus and penalty drops for visual distinction */
 .bonus-drop {
-    border: 2px solid #F7C40D;
+    border: 2px solid #FFC907;
     box-shadow: 0 0 12px #ffe082;
 }
 .penalty-drop {
@@ -236,14 +239,14 @@
 
 /* Headings and message highlights */
 .message h2, .message h1 {
-    color: #F7C40D;
-    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    color: #FFC907;
+    font-family: 'Proxima Nova', Arial, Helvetica, sans-serif;
     font-weight: bold;
 }
 
 /* Button styling for consistency */
 button, .btn {
-    background: #F7C40D;
+    background: #FFC907;
     color: #222;
     font-size: 1em;
     font-weight: bold;
@@ -264,4 +267,10 @@ button:hover, .btn:hover {
 }
 @keyframes confetti-fall {
     /* ...existing code... */
+}
+
+/* Charity water link hover effect */
+.message a:hover {
+    color: #ffd84d !important;
+    text-decoration: underline !important;
 }
