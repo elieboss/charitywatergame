@@ -1,6 +1,12 @@
 let penalty_sound = new Audio('sounds effect/penalty.mp3'); // Add a penalty sound file
 let move_speed = 3, grativy = 0.5;
 let base_speed = 3;
+let selected_level = null;
+let level_speeds = {
+    'Easy': 2,
+    'Medium': 3,
+    'Hard': 5
+};
 let bird = document.querySelector('.bird');
 let img = document.getElementById('bird-1');
 let sound_point = new Audio('sounds effect/point.mp3');
@@ -20,9 +26,39 @@ let game_state = 'Start';
 img.style.display = 'none';
 message.classList.add('messageStyle');
 
+// Initialize level selection
+function initializeLevelSelection() {
+    const easyBtn = document.getElementById('easy-btn');
+    const mediumBtn = document.getElementById('medium-btn');
+    const hardBtn = document.getElementById('hard-btn');
+    
+    function selectLevel(level, selectedBtn) {
+        selected_level = level;
+        move_speed = level_speeds[level];
+        base_speed = level_speeds[level];
+        
+        // Reset all button styles
+        [easyBtn, mediumBtn, hardBtn].forEach(btn => {
+            btn.style.transform = 'scale(1)';
+            btn.style.boxShadow = 'none';
+        });
+        
+        // Highlight selected button
+        selectedBtn.style.transform = 'scale(1.1)';
+        selectedBtn.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+    }
+    
+    easyBtn.addEventListener('click', () => selectLevel('Easy', easyBtn));
+    mediumBtn.addEventListener('click', () => selectLevel('Medium', mediumBtn));
+    hardBtn.addEventListener('click', () => selectLevel('Hard', hardBtn));
+}
+
+// Initialize level selection when page loads
+window.addEventListener('DOMContentLoaded', initializeLevelSelection);
+
 document.addEventListener('keydown', (e) => {
     
-    if(e.key == 'Enter' && game_state != 'Play'){
+    if(e.key == 'Enter' && game_state != 'Play' && selected_level){
         document.querySelectorAll('.pipe_sprite').forEach((e) => {
             e.remove();
         });
@@ -36,6 +72,8 @@ document.addEventListener('keydown', (e) => {
         play();
     }
 });
+
+
 
 function spawnDrop(type) {
     const drop = document.createElement('div');
@@ -85,6 +123,9 @@ function spawnDrop(type) {
 }
 
 function play(){
+    // Reset speed to base level speed at start of each game
+    move_speed = base_speed;
+    
     // Randomly spawn penalty and bonus drops
     let dropCounter = 0;
     function maybeSpawnDrops() {
@@ -121,14 +162,8 @@ function play(){
                     // Tap/click/touch to restart
                     function tapToRestart() {
                         document.querySelectorAll('.pipe_sprite').forEach((e) => e.remove());
-                        img.style.display = 'block';
-                        bird.style.top = '40vh';
-                        game_state = 'Play';
-                        message.innerHTML = '';
-                        score_title.innerHTML = 'Score : ';
-                        score_val.innerHTML = '0';
-                        message.classList.remove('messageStyle');
-                        play();
+                        selected_level = null;
+                        window.location.reload();
                         document.body.removeEventListener('click', tapToRestart);
                         document.body.removeEventListener('touchstart', tapToRestart);
                     }
@@ -140,9 +175,10 @@ function play(){
                         let newScore = +score_val.innerHTML + 1;
                         score_val.innerHTML = newScore;
                         sound_point.play();
-                        // Speed up every 10 points
+                        // Speed up every 10 points (adjusted by difficulty level)
                         if (newScore % 10 === 0 && newScore > 0) {
-                            move_speed += 0.7;
+                            let speedIncrease = selected_level === 'Easy' ? 0.3 : selected_level === 'Medium' ? 0.5 : 0.8;
+                            move_speed += speedIncrease;
                             message.innerHTML = '<span style="color:#F7C40D;font-weight:bold;">Keep going!</span>';
                             message.classList.add('messageStyle');
                             showConfetti();
